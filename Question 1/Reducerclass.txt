@@ -1,0 +1,22 @@
+package Question1;
+
+import java.io.IOException;
+import java.util.*;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapred.*;
+
+public class Reducerclass extends MapReduceBase implements Reducer<Text, IntWritable, Text, IntWritable> {
+
+	public void reduce(Text text_key, Iterator<IntWritable> values, OutputCollector<Text,IntWritable> output, Reporter reporter) throws IOException {
+		Text key = text_key; // this is a text key
+		int frequencyForCountry = 0;
+		while (values.hasNext()) { // while loop starts here
+			
+			IntWritable value = (IntWritable) values.next();
+			frequencyForCountry += value.get();
+			
+		}
+		output.collect(key, new IntWritable(frequencyForCountry)); // frequency of the country
+	}
+}

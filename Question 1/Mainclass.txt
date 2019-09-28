@@ -1,0 +1,42 @@
+package Question1;
+
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.*;
+import org.apache.hadoop.mapred.*;
+
+public class Mainclass {
+    public static void main(String[] args) {
+        JobClient jb_client = new JobClient();
+        // Create a configuration object for the job
+        JobConf jb_config = new JobConf(Mainclass.class);
+
+        
+        jb_config.setJobName("Sale-Per-Country"); // setting  the name for the job
+
+        //mention data type of output key and value
+        
+        jb_config.setOutputKeyClass(Text.class);
+        jb_config.setOutputValueClass(IntWritable.class);
+
+        // Mention names of Mapper and Reducer Class
+        jb_config.setMapperClass(SalesCountry.Mapperclass.class);
+        jb_config.setReducerClass(SalesCountry.Reducerclass.class);
+
+        // Mention formats of the data type of Input and output
+        jb_config.setInputFormat(TextInputFormat.class);
+        jb_config.setOutputFormat(TextOutputFormat.class);
+
+
+        FileInputFormat.setInputPaths(jb_config, new Path(args[0]));
+        FileOutputFormat.setOutputPath(jb_config, new Path(args[1]));
+
+        jb_client.setConf(jb_config);
+        try {
+           
+            JobClient.runJob(jb_config);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        system.out.println("Program by Jawahar G');
+    }
+}
