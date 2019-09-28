@@ -1,0 +1,43 @@
+package Question4;
+
+
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.*;
+import org.apache.hadoop.mapred.*;
+
+public class Mainclass {
+    public static void main(String[] args) {
+        JobClient jb_client = new JobClient();
+        // Create a configuration object for the job
+        JobConf jb_configr = new JobConf(Mainclass.class);
+
+        
+        jb_configr.setJobName("count of Product 1 and Product 2 "); // Setting the name of the Job.
+
+        // Modify data type of output key and value
+        jb_configr.setOutputKeyClass(Text.class);
+        jb_configr.setOutputValueClass(IntWritable.class);
+
+        // Modify names of Mapper and Reducer Class
+        jb_configr.setMapperClass(wordcount.Mapperclass.class);
+        jb_configr.setReducerClass(wordcount.Reducerclass.class);
+
+        // Modify formats of the data type of Input and output
+        jb_configr.setInputFormat(TextInputFormat.class);
+        jb_configr.setOutputFormat(TextOutputFormat.class);
+
+        
+
+        FileInputFormat.setInputPaths(jb_configr, new Path(args[0]));
+        FileOutputFormat.setOutputPath(jb_configr, new Path(args[1]));
+
+        jb_client.setConf(jb_configr);
+        try {
+            // Run the job 
+            JobClient.runJob(jb_configr);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        system.out.println("Program by Jawahar G');
+    }
+}
